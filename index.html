@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>공장 생산현황 대시보드</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 30px;
+}
+
+h1 {
+    margin-bottom: 5px;
+}
+
+.description {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.line {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.positions {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+}
+
+.position {
+    padding: 15px 5px;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    font-weight: bold;
+}
+
+.wait {
+    background: #dddddd;
+}
+
+.working {
+    background: #ffd966;
+}
+
+.complete {
+    background: #93c47d;
+}
+</style>
+</head>
+
+<body>
+
+<h1>공장 생산현황 대시보드</h1>
+
+<div class="description">
+4개 생산라인 × 라인별 16개 작업위치
+<br>
+작업위치를 클릭하면 상태가 변경됩니다.
+</div>
+
+<div id="factory"></div>
+
+<script>
+
+const factory = document.getElementById("factory");
+
+for (let line = 1; line <= 4; line++) {
+
+    const lineBox = document.createElement("div");
+    lineBox.className = "line";
+
+    const title = document.createElement("h2");
+    title.innerText = "생산라인 " + line;
+
+    lineBox.appendChild(title);
+
+    const positions = document.createElement("div");
+    positions.className = "positions";
+
+    for (let pos = 1; pos <= 16; pos++) {
+
+        const box = document.createElement("div");
+
+        box.className = "position wait";
+        box.innerText = pos + "\n대기";
+
+        box.onclick = function() {
+
+            if (box.classList.contains("wait")) {
+
+                box.className = "position working";
+                box.innerText = pos + "\n작업중";
+
+            } else if (box.classList.contains("working")) {
+
+                box.className = "position complete";
+                box.innerText = pos + "\n완료";
+
+            } else {
+
+                box.className = "position wait";
+                box.innerText = pos + "\n대기";
+
+            }
+        };
+
+        positions.appendChild(box);
+    }
+
+    lineBox.appendChild(positions);
+    factory.appendChild(lineBox);
+}
+
+</script>
+
+</body>
+</html>
